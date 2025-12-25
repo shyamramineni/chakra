@@ -1,0 +1,282 @@
+
+INSERT INTO `cage_design` (`id`,`version`,`cage_design`,`double_bottom_centre_included`,`no_of_birds_per_cage_double_box`,`no_of_birds_per_cage_single_box`,`no_of_partitions_per_sheet_length`,`no_of_single_bottoms_per_sheet`,`sheet_length`,`description`,`bottom_depth`,`cage_front`,`cage_height`,`top_depth`) VALUES 
+ (1,4,'Layer 15\" X 12\" 3 Birds ',0x01,'3.00','3.00','12.00','3.00','15.00',NULL,'12.00','15.00','15.00','12.00'),
+ (2,1,'Layer 17\" X 15\" 4 Birds ',0x00,'4.00','4.00','11.00','2.00','15.58',NULL,'15.00','17.00','15.00','15.00'),
+ (3,1,'Layer 15\" X 18\" 4 Birds ',0x00,'4.00','4.00','12.00','2.00','15.00',NULL,'18.00','15.00','15.00','18.00'),
+ (4,1,'Layer 15\" X 12\"/18\" 334 Birds ',0x00,'4.00','3.00','12.00','2.00','15.00',NULL,'12.00','15.00','15.00','18.00'),
+ (5,1,'Layer 17\"X14\" 4Birds',0x00,'4.00','4.00','11.00','2.00','15.58',NULL,'14.00','17.00','15.00','14.00'),
+ (6,1,'Layer 18\"X14\" 4birds 2.25Pitch',0x00,'4.00','4.00','10.00','2.00','15.00',NULL,'14.00','18.00','15.00','14.00'),
+ (7,1,'Layer 18\"X14\" 4Birds 2\"Pitch',0x00,'4.00','4.00','10.00','2.00','15.00',NULL,'14.00','18.00','15.00','14.00');
+ 
+INSERT INTO `wire_brand` (`id`,`version`,`wire_brand`,`description`) VALUES 
+ (1,0,'TATA',''),
+ (2,0,'CWI',''),
+ (3,0,'Millenium','');
+ 
+INSERT INTO `machine` (`id`,`version`,`machine_name`,`description`) VALUES 
+ (1,0,'M1',''),
+ (2,0,'M2',''),
+ (3,0,'M3','');
+ 
+INSERT INTO `sheet_specification` (`id`,`version`,`cross_wire_diameter`,`length`,`line_wire_diameter1`,`line_wire_diameter2`,`no_of_line_wires1`,`no_of_line_wires2`,`pitch`,`projection`,`sheet_name`,`sheet_weight`,`width`,`description`,`sheet_spec_id`,`factory_pitch`,`no_of_cross_wires`,`textual`) VALUES 
+ (1,23,'2.50','180.00','2.50','0.00','29.00','0.00','1.00','0.75','Double Bottom(Center Partition)','15.20','58.00',NULL,'LB26 ','12\" 12Gaps ','181.00','.75/3X3\"/8X1.5\"/8X1.5\"/3X3\"/1/5X3\"/.75'),
+ (2,5,'3.00','180.00','3.00','0.00','15.00','0.00','2.14','0.25','Double Top','9.37','48.00',NULL,'LC26 ','15\" 7gaps','85.11','.25/5/6/1/4X3\"/4X3\"/1/6/5/.25'),
+ (3,6,'3.00','180.00','3.00','2.50','12.00','3.00','2.14','0.25','Single Top','8.10','39.00',NULL,'LC01 ','15\" 7gaps','85.11','.25/5/6/1/4X3\"/4X3\"/3X1\"/.25'),
+ (4,4,'2.50','180.00','2.50','0.00','36.00','0.00','1.00','0.75','Single Bottom(3 piece)','18.12','65.00',NULL,'LB101 ','12\" 12Gaps ','181.00','.75/3X3\"/8X1.5\"/1/8X1.5\"/3X3\"/1/3X3\"/8X1.5\"/.75'),
+ (5,4,'2.50','12.00','2.50','0.00','7.00','0.00','1.00','0.50','Partition 12\"','0.30','16.50',NULL,'LP26 ','12\" 12Gaps ','13.00','.75/4X3\"/2\"/5\"/2\"/4X3\"/.75'),
+ (6,3,'3.50','2.14','3.50','0.00','2.00','0.00','2.14','0.63','Gates','0.05','8.00',NULL,'LD01 ','','2.00',''),
+ (7,3,'2.50','180.00','2.50','0.00','31.00','0.00','1.00','0.75','Double Bottom','14.68','54.00',NULL,'LB27','12\" 12Gaps ','181.00','.75/3X3\"/12X1.5\"/12X1.5\"/3X3\"/.75'),
+ (8,5,'3.00','180.00','3.00','0.00','19.00','0.00','2.14','0.25','Double Top','11.76','60.00',NULL,'LC33','15\" 7gaps','85.11','.25/5/6/1/6X3\"/6X3\"/1/6/5/.25'),
+ (9,3,'2.50','18.00','2.50','0.00','7.00','0.00','1.00','0.50','Partitions 18\"','0.44','16.50',NULL,'LP27','12\" 12Gaps ','19.00','.75/4X3\"/2\"/5\"/2\"/4X3\"/.75'),
+ (10,3,'2.50','180.00','2.50','0.00','24.00','0.00','1.00','0.75','Centre Partition','15.20','63.00',NULL,'LP01','12\" 12Gaps ','181.00','.75/5X3\"/1/5X3\"/1/5X3\"/1/5X3\"/.75'),
+ (11,3,'2.50','187.00','2.50','0.00','27.00','0.00','1.00','0.75','Double Bottom','13.64','48.00',NULL,'LB28','12\" 12Gaps ','188.00','.75/3X3\"/10X1.5\"/10X1.5\"/3X3\"/.75'),
+ (12,3,'3.00','187.00','3.00','0.00','17.00','0.00','2.13','0.25','Double Top','11.00','54.00',NULL,'LC28','17\" 8gaps','88.79','.25/5/6/1/5X3\"/5X3\"/1/6/5/.25'),
+ (13,3,'3.00','187.00','3.00','2.50','13.00','3.00','2.13','0.25','Single Top','9.05','42.00',NULL,'LC03','17\" 8gaps','88.79','.25/5/6/1/5X3\"/4X3\"/3X1\"/.25'),
+ (14,3,'2.50','187.00','2.50','0.00','28.00','0.00','1.00','0.75','Single Bottom','14.00','49.00',NULL,'LB103','12\" 12Gaps ','188.00','.75/3X3\"/10X1.5\"/1/10X1.5\"/3X3\"/.75'),
+ (15,5,'2.50','15.00','2.50','0.00','7.00','0.00','1.00','0.50','Partitions 15\"','0.37','16.50',NULL,'LP28','12\" 12Gaps ','16.00','.75/4X3\"/2\"/5\"/2\"/4X3\"/.75'),
+ (17,6,'3.00','180.00','3.00','0.00','19.00','0.00','2.14','0.25','Double Top','11.76','60.00',NULL,'LC33','15\" 7gaps','85.11','.25/5/6/1/6X3\"/6X3\"/1/6/5/.25'),
+ (18,3,'2.50','187.00','2.50','0.00','24.00','0.00','1.00','0.75','Centre Partition 187\"','15.78','63.00',NULL,'LP02','12\" 12Gaps ','188.00','.75/5X3\"/1/5X3\"/1/5X3\"/1/5X3\"/.75'),
+ (19,3,'3.00','180.00','3.00','2.50','14.00','3.00','2.14','0.25','Single Top','9.29','45.00',NULL,'LC27','15\" 7gaps','85.11','.25/5/6/1/6X3\"/4X3\"/3X1\"/.25'),
+ (20,3,'2.50','180.00','0.00','2.50','0.00','32.00','1.00','0.75','Single Bottom(2 Piece)   ','15.20','55.00',NULL,'LB102','12\" 12Gaps ','181.00','.75/3X3\"/12X1.5\"/1/12X1.5\"/3X3\"/.75'),
+ (21,8,'2.50','187.00','2.50','0.00','27.00','0.00','1.00','0.75','Double Bottom','13.29','46.00',NULL,'LB29','12\" 12Gaps ','188.00','.75/3X3\"/2/9X1.5\"/9X1.5\"/2/3X3\"/.75'),
+ (22,3,'3.00','187.00','3.00','0.00','17.00','0.00','2.13','0.25','Double top','10.76','52.00',NULL,'LC29','17\" 8gaps','88.79','.25/5/6/1/2/4X3\"/4X3\"/2/1/6/5/.25'),
+ (23,7,'3.00','187.00','3.00','2.50','13.00','3.00','2.13','0.25','Single top','8.93','41.00',NULL,'LC04','17\" 8gaps','88.79','.25/5/6/1/2/4X3\"/4X3\"/3X1\"/.25'),
+ (24,7,'2.50','187.00','2.50','0.00','26.00','0.00','1.00','0.75','Single Bottom','13.64','49.00',NULL,'LB104','12\" 12Gaps ','188.00','.75/3X3\"/2/8X1.5\"/1/8X1.5\"/2/3X3\"/.75'),
+ (25,3,'2.50','14.00','2.50','0.00','7.00','0.00','1.00','0.50','Partitions 14\"','0.35','16.50',NULL,'LP29','12\" 12Gaps ','15.00','.75/4X3\"/2\"/5\"/2\"/4X3\"/.75'),
+ (26,3,'2.50','180.00','2.50','0.00','25.00','0.00','1.00','0.75','Double Bottom','12.45','46.00',NULL,'LB30','12\" 12Gaps ','181.00','.75/3X3\"/2/8X1.5\"/8X1.5\"/2/3X3\"/.75'),
+ (27,5,'3.00','180.00','3.00','0.00','17.00','0.00','2.25','0.25','Double Top','10.04','52.00',NULL,'LC30','18\" 8Gaps','81.00','.25/5/6/1/2/4X3\"/4X3\"/2/1/6/5/.25'),
+ (28,3,'3.00','180.00','3.00','2.50','13.00','3.00','2.25','0.25','Single top','8.35','41.00',NULL,'LC05','18\" 8Gaps','81.00','.25/5/6/1/2/4X3\"/4X3\"/3X1\"/.25'),
+ (29,4,'2.50','180.00','2.50','0.00','26.00','0.00','1.00','0.75','Single Bottom','13.14','49.00',NULL,'LB105','12\" 12Gaps ','181.00','.75/3X3\"/2/8X1.5\"/1/8X1.5\"/2/3X3\"/.75'),
+ (30,3,'3.00','180.00','3.00','0.00','17.00','0.00','2.00','0.25','Double Top','10.75','52.00',NULL,'LC31','18\" 9Gaps','91.00','.25/5/6/1/2/4X3\"/4X3\"/2/1/6/5/.25'),
+ (31,3,'3.00','180.00','3.00','2.50','13.00','3.00','2.00','0.25','Single Top','8.91','41.00',NULL,'LC06','18\" 9Gaps','91.00','.25/5/6/1/2/4X3\"/4X3\"/3X1\"/.25');
+
+INSERT INTO `cage_part_type` (`id`,`version`,`cage_part_type`,`description`) VALUES 
+ (1,0,'Structure Frames',''),
+ (2,0,'Feeding System',''),
+ (3,2,'Watering System Pipe',NULL),
+ (4,0,'Misc.',''),
+ (5,0,'Mesh ','xyz'),
+ (6,1,'Watering System Nipple',NULL); 
+ 
+INSERT INTO `cage_part_specification` (`id`,`version`,`cage_part_specification`,`cage_part_type_id`,`description`) VALUES 
+ (1,1,'Paint Coated',1,''),
+ (2,0,'Galvanised',1,''),
+ (3,1,'Chakra Plastic Feeders Galvanized Brackets',2,''),
+ (4,1,'Chakra Plastic Feeders Paint Coated Brackets',2,''),
+ (5,2,'Aluminium 12\" Feeders Galvanized Brackets',2,''),
+ (6,2,'Aluminium 12\" Feeders Paint Coated Brackets',2,''),
+ (7,3,'Chakra 22mm Square',3,NULL),
+ (10,4,'Chakra 20mm Round',3,NULL),
+ (11,1,'MISC Materials & Fabrication',4,''),
+ (12,1,'CL4 Nipple',6,NULL),
+ (13,1,'CL10',6,NULL);
+
+INSERT INTO `cage_design_sheet_spec_formula` (`id`,`version`,`cage_design_id`,`formula`,`sheet_specification_id`,`description`) VALUES 
+ (1,0,1,'((cageLength/sheetLength)*fulls)',1,''),
+ (2,0,1,'((cageLength/sheetLength)*fulls)',2,''),
+ (3,1,1,'(((cageLength/sheetLength)*fulls*(tiers-1)*2))+((cageLength/sheetLength)*halfs*tiers)',3,''),
+ (4,7,1,'(((cageLength/sheetLength)*(fulls)*((tiers-1)*2)+((cageLength/sheetLength)*halfs*tiers))/noOfSingleBottomsPerSheet)',4,''),
+ (5,6,1,'((((cageLength/sheetLength)*fulls)*noOfPartitionsPerSheetLength*2)+(((cageLength/sheetLength)*(fulls)*((tiers-1)*2)+((cageLength/sheetLength)*halfs*tiers))*noOfPartitionsPerSheetLength)+(1+noOfCuttingsInShed)*((tiers*2)*fulls)+((tiers*1)*halfs))',5,''),
+ (6,5,1,'((((cageLength/sheetLength)*fulls)*2*noOfPartitionsPerSheetLength)+(((cageLength/sheetLength)*(fulls)*((tiers-1)*2)+((cageLength/sheetLength)*halfs*tiers))*noOfPartitionsPerSheetLength))',6,''),
+ (7,0,2,'((cageLength/sheetLength)*fulls)',11,''),
+ (8,0,2,'((cageLength/sheetLength)*fulls)',12,''),
+ (9,1,2,'(((cageLength/sheetLength)*fulls*(tiers-1)*2))+((cageLength/sheetLength)*halfs*tiers)',13,''),
+ (10,1,2,'(((cageLength/sheetLength)*(fulls)*((tiers-1)*2)+((cageLength/sheetLength)*halfs*tiers))/noOfSingleBottomsPerSheet)',14,''),
+ (12,1,2,'((((cageLength/sheetLength)*fulls)*noOfPartitionsPerSheetLength*2)+(((cageLength/sheetLength)*(fulls)*((tiers-1)*2)+((cageLength/sheetLength)*halfs*tiers))*noOfPartitionsPerSheetLength)+(1+noOfCuttingsInShed)*((tiers*2)*fulls)+((tiers*1)*halfs))',15,''),
+ (13,1,2,'((((cageLength/sheetLength)*fulls)*2*noOfPartitionsPerSheetLength)+(((cageLength/sheetLength)*(fulls)*((tiers-1)*2)+((cageLength/sheetLength)*halfs*tiers))*noOfPartitionsPerSheetLength))',6,''),
+ (14,0,2,'(((cageLength/sheetLength)*fulls)/4)',18,''),
+ (15,0,3,'((cageLength/sheetLength)*fulls) ',7,''),
+ (16,0,3,'((cageLength/sheetLength)*fulls)',17,''),
+ (17,0,3,'(((cageLength/sheetLength)*fulls)/4) ',10,''),
+ (18,0,3,'(((cageLength/sheetLength)*fulls*(tiers-1)*2))+((cageLength/sheetLength)*halfs*tiers)',19,''),
+ (19,1,3,'(((cageLength/sheetLength)*(fulls)*((tiers-1)*2)+((cageLength/sheetLength)*halfs*tiers))/noOfSingleBottomsPerSheet)',20,''),
+ (20,1,3,'((((cageLength/sheetLength)*fulls)*noOfPartitionsPerSheetLength*2)+(((cageLength/sheetLength)*(fulls)*((tiers-1)*2)+((cageLength/sheetLength)*halfs*tiers))*noOfPartitionsPerSheetLength)+(1+noOfCuttingsInShed)*((tiers*2)*fulls)+((tiers*1)*halfs))',9,''),
+ (21,2,3,'((((cageLength/sheetLength)*fulls)*2*noOfPartitionsPerSheetLength)+(((cageLength/sheetLength)*(fulls)*((tiers-1)*2)+((cageLength/sheetLength)*halfs*tiers))*noOfPartitionsPerSheetLength))',6,''),
+ (22,0,4,'((cageLength/sheetLength)*fulls) ',7,''),
+ (23,0,4,'((cageLength/sheetLength)*fulls)',8,''),
+ (24,0,4,'(((cageLength/sheetLength)*fulls)/4)',10,''),
+ (25,0,4,'(((cageLength/sheetLength)*fulls*(tiers-1)*2))+((cageLength/sheetLength)*halfs*tiers)',3,''),
+ (26,1,4,'(((cageLength/sheetLength)*(fulls)*((tiers-1)*2)+((cageLength/sheetLength)*halfs*tiers))/noOfSingleBottomsPerSheet)',4,''),
+ (27,2,4,'((((cageLength/sheetLength)*(fulls)*((tiers-1)*2)+((cageLength/sheetLength)*halfs*tiers))*noOfPartitionsPerSheetLength)+((1+noOfCuttingsInShed)*((((tiers-1)*2)*fulls)+(tiers*halfs))))',5,''),
+ (28,3,4,'((((cageLength/sheetLength)*fulls)*noOfPartitionsPerSheetLength*2)+(1+noOfCuttingsInShed)*(2*fulls))',9,''),
+ (29,1,4,'((((cageLength/sheetLength)*fulls)*2*noOfPartitionsPerSheetLength)+(((cageLength/sheetLength)*(fulls)*((tiers-1)*2)+((cageLength/sheetLength)*halfs*tiers))*noOfPartitionsPerSheetLength))',6,''),
+ (30,1,5,'((cageLength/sheetLength)*fulls)',21,''),
+ (31,0,5,'((cageLength/sheetLength)*fulls)',22,''),
+ (32,1,5,'(((cageLength/sheetLength)*fulls*(tiers-1)*2))+((cageLength/sheetLength)*halfs*tiers)',23,''),
+ (33,0,5,'(((cageLength/sheetLength)*(fulls)*((tiers-1)*2)+((cageLength/sheetLength)*halfs*tiers))/noOfSingleBottomsPerSheet)',24,''),
+ (34,0,5,'((((cageLength/sheetLength)*fulls)*noOfPartitionsPerSheetLength*2)+(((cageLength/sheetLength)*(fulls)*((tiers-1)*2)+((cageLength/sheetLength)*halfs*tiers))*noOfPartitionsPerSheetLength)+(1+noOfCuttingsInShed)*((tiers*2)*fulls)+((tiers*1)*halfs))',25,''),
+ (35,1,5,'((((cageLength/sheetLength)*fulls)*2*noOfPartitionsPerSheetLength)+(((cageLength/sheetLength)*(fulls)*((tiers-1)*2)+((cageLength/sheetLength)*halfs*tiers))*noOfPartitionsPerSheetLength))',6,''),
+ (36,0,6,'((cageLength/sheetLength)*fulls)',26,''),
+ (37,2,6,'((cageLength/sheetLength)*fulls)',27,''),
+ (38,0,6,'(((cageLength/sheetLength)*fulls*(tiers-1)*2))+((cageLength/sheetLength)*halfs*tiers)',28,''),
+ (39,0,6,'(((cageLength/sheetLength)*(fulls)*((tiers-1)*2)+((cageLength/sheetLength)*halfs*tiers))/noOfSingleBottomsPerSheet)',29,''),
+ (40,0,6,'((((cageLength/sheetLength)*fulls)*noOfPartitionsPerSheetLength*2)+(((cageLength/sheetLength)*(fulls)*((tiers-1)*2)+((cageLength/sheetLength)*halfs*tiers))*noOfPartitionsPerSheetLength)+(1+noOfCuttingsInShed)*((tiers*2)*fulls)+((tiers*1)*halfs))',25,''),
+ (41,0,6,'((((cageLength/sheetLength)*fulls)*2*noOfPartitionsPerSheetLength)+(((cageLength/sheetLength)*(fulls)*((tiers-1)*2)+((cageLength/sheetLength)*halfs*tiers))*noOfPartitionsPerSheetLength))',6,''),
+ (42,0,7,'((cageLength/sheetLength)*fulls)',26,''),
+ (43,0,7,'((cageLength/sheetLength)*fulls)',30,''),
+ (44,0,7,'(((cageLength/sheetLength)*fulls*(tiers-1)*2))+((cageLength/sheetLength)*halfs*tiers)',31,''),
+ (45,0,7,'(((cageLength/sheetLength)*(fulls)*((tiers-1)*2)+((cageLength/sheetLength)*halfs*tiers))/noOfSingleBottomsPerSheet)',29,''),
+ (46,0,7,'(((cageLength/sheetLength)*fulls)/4)',10,''),
+ (47,0,7,'((((cageLength/sheetLength)*fulls)*noOfPartitionsPerSheetLength*2)+(((cageLength/sheetLength)*(fulls)*((tiers-1)*2)+((cageLength/sheetLength)*halfs*tiers))*noOfPartitionsPerSheetLength)+(1+noOfCuttingsInShed)*((tiers*2)*fulls)+((tiers*1)*halfs))',25,''),
+ (48,0,7,'((((cageLength/sheetLength)*fulls)*2*noOfPartitionsPerSheetLength)+(((cageLength/sheetLength)*(fulls)*((tiers-1)*2)+((cageLength/sheetLength)*halfs*tiers))*noOfPartitionsPerSheetLength))',6,''),
+ (49,0,6,'(((cageLength/sheetLength)*fulls)/4)',10,''),
+ (50,0,5,'(((cageLength/sheetLength)*fulls)/4)',18,'');
+
+INSERT INTO `cage_part_spec_formula` (`id`,`version`,`cage_part_spec_name`,`formula`,`description`) VALUES 
+ (1,0,'M.S Flat ','((cageLength/17.75*((tiers*halfs)+(tiers*fulls*2)))*5.9)  ',''),
+ (3,0,'Angle 22 X 3 MM ','((cageLength*(fulls*2+halfs)/17.75)*6)  ',''),
+ (5,0,'Angle 35 X 5 MM ','((((cageLength/5+1)*fulls)*2/17.75)*14.5)  ',''),
+ (7,0,'Stands M.S 3 TIER 3 BIRDS ','(((cageLength/5+1)*fulls)*7.5)  ',''),
+ (9,0,'Galvanised M.S Flat ','((cageLength/17.75*((tiers*halfs)+(tiers*fulls*2)))*5.9)  ',''),
+ (10,0,'Galvanised Angle 22 X 3 MM ','((cageLength*(fulls*2+halfs)/17.75)*6)  ',''),
+ (11,0,'Galvanised Angle 35 X 5 MM ','((((cageLength/5+1)*fulls)*2/17.75)*14.5)  ',''),
+ (12,0,'Galvanised Stands M.S 3 TIER 3 BIRDS ','(((cageLength/5+1)*fulls)*7.5)  ',''),
+ (13,3,'Alu. Brackets galvanized ','(((((cageLength/sheetLength)*fulls)*noOfPartitionsPerSheetLength*2)+(((cageLength/sheetLength)*(fulls)*((tiers-1)*2)+((cageLength/sheetLength)*halfs*tiers))*noOfPartitionsPerSheetLength)+((1+noOfCuttingsInShed)*(((tiers*2)*fulls)+((tiers*1)*halfs))))/3)',''),
+ (14,3,'Alu. Brackets RedOxide Coated ','(((((cageLength/sheetLength)*fulls)*noOfPartitionsPerSheetLength*2)+(((cageLength/sheetLength)*(fulls)*((tiers-1)*2)+((cageLength/sheetLength)*halfs*tiers))*noOfPartitionsPerSheetLength)+((1+noOfCuttingsInShed)*(((tiers*2)*fulls)+((tiers*1)*halfs))))/3)',''),
+ (15,0,'Alu. Feeder 12\"18\'LONG ','(((cageLength*((tiers*halfs)+(tiers*fulls*2)))/18)*2.35)  ',''),
+ (16,0,'Alu. Feeder Ends ','(((tiers*halfs)+(tiers*fulls*2))*2) ',''),
+ (17,0,'Alu. Feeder Bending ','((cageLength*((tiers*halfs)+(tiers*fulls*2)))/18)  ',''),
+ (18,4,'Plastic Brackets galvanized ','(((((cageLength/sheetLength)*fulls)*noOfPartitionsPerSheetLength*2)+(((cageLength/sheetLength)*(fulls)*((tiers-1)*2)+((cageLength/sheetLength)*halfs*tiers))*noOfPartitionsPerSheetLength)+((1+noOfCuttingsInShed)*(((tiers*2)*fulls)+((tiers*1)*halfs))))/3)',''),
+ (19,4,'Plastic Brackets RedOxide Coated ','(((((cageLength/sheetLength)*fulls)*noOfPartitionsPerSheetLength*2)+(((cageLength/sheetLength)*(fulls)*((tiers-1)*2)+((cageLength/sheetLength)*halfs*tiers))*noOfPartitionsPerSheetLength)+((1+noOfCuttingsInShed)*(((tiers*2)*fulls)+((tiers*1)*halfs))))/3)',''),
+ (20,0,'CHAKRA P.V.C FEEDER ','((cageLength*((tiers*halfs)+(tiers*fulls*2)))/18)  ',''),
+ (21,0,'Plastic Feeder Ends ','(((tiers*halfs)+(tiers*fulls*2))*2) ',''),
+ (22,0,'Plastic Feeder Joints ','(((tiers*halfs)+(tiers*fulls*2))*2) ',''),
+ (23,0,'Teflan tapes ','((((cageLength*((tiers*halfs)+(tiers*fulls*2)))*3/1.25/3)+cageLength*((tiers*halfs)+(tiers*fulls*2)))/300)  ',''),
+ (24,0,'Nipples & Saddles CL4 ','((((cageLength/sheetLength)*fulls)*noOfPartitionsPerSheetLength*2)+(((cageLength/sheetLength)*(fulls)*((tiers-1)*2)+((cageLength/sheetLength)*halfs*tiers))*noOfPartitionsPerSheetLength)+(1+noOfCuttingsInShed)*((tiers*2)*fulls)+((tiers*1)*halfs)) ',''),
+ (25,0,'Nipples & Saddles CL10 ','((((cageLength/sheetLength)*fulls)*noOfPartitionsPerSheetLength*2)+(((cageLength/sheetLength)*(fulls)*((tiers-1)*2)+((cageLength/sheetLength)*halfs*tiers))*noOfPartitionsPerSheetLength)+(1+noOfCuttingsInShed)*((tiers*2)*fulls)+((tiers*1)*halfs)) ',''),
+ (26,0,'drilling,solution & saddle fixing ','((((cageLength/sheetLength)*fulls)*noOfPartitionsPerSheetLength*2)+(((cageLength/sheetLength)*(fulls)*((tiers-1)*2)+((cageLength/sheetLength)*halfs*tiers))*noOfPartitionsPerSheetLength)+(1+noOfCuttingsInShed)*((tiers*2)*fulls)+((tiers*1)*halfs)) ',''),
+ (27,1,'Joint couplers ','(((((cageLength/sheetLength)*fulls)*2)+(((cageLength/sheetLength)*fulls*(tiers-1)*2))+((cageLength/sheetLength)*halfs*tiers))-((tiers*2*fulls*(1+noOfCuttingsInShed))+2)) ',''),
+ (28,1,'coupler/reducers ','((tiers*2*fulls*(1+noOfCuttingsInShed))+2) ',''),
+ (29,1,'Flushing Unit ','(noOfCuttingsInShed +1) ',''),
+ (30,0,'Nipple pipes square(Chakra)15\' ','((((cageLength/sheetLength)*fulls)*2)+(((cageLength/sheetLength)*fulls*(tiers-1)*2))+((cageLength/sheetLength)*halfs*tiers)) ',''),
+ (31,0,'Nipple pipes Round 20mm(Chakra)15\' ','((((cageLength/sheetLength)*fulls)*2)+(((cageLength/sheetLength)*fulls*(tiers-1)*2))+((cageLength/sheetLength)*halfs*tiers)) ',''),
+ (32,0,'Weld Rods used at factory ','(((cageLength/5+1)*fulls)*0.0666666666666667)  ',''),
+ (33,0,'Redoxide ','((cageLength*((tiers*halfs)+(tiers*fulls*2)))*2.75/375)  ',''),
+ (34,0,'GI Wire 18 g ','((cageLength*((tiers*halfs)+(tiers*fulls*2)))*2.75/1200)  ',''),
+ (35,0,'GI Wire 16 g ','((cageLength*((tiers*halfs)+(tiers*fulls*2)))*2.75/800)  ',''),
+ (36,0,'Rivits -Big ','((((cageLength*((tiers*halfs)+(tiers*fulls*2)))*2.75/6)+cageLength*((tiers*halfs)+(tiers*fulls*2)))/400) ',''),
+ (37,0,'Rivits -Small ','(((cageLength*((tiers*halfs)+(tiers*fulls*2)))/18)*5/600) ',''); 
+
+INSERT INTO `cage_part_price` (`id`,`version`,`cage_part_spec_formula_id`,`price`,`description`,`end_date`,`start_date`) VALUES 
+ (1,0,1,'40.00','','2012-03-01 00:00:00','2012-03-01 00:00:00'),
+ (2,0,3,'41.00','','2012-03-01 00:00:00','2012-03-01 00:00:00'),
+ (3,0,5,'41.00','','2012-03-01 00:00:00','2012-03-01 00:00:00'),
+ (4,0,7,'40.00','','2012-03-01 00:00:00','2012-03-01 00:00:00'),
+ (5,0,9,'60.00','','2012-03-01 00:00:00','2012-03-01 00:00:00'),
+ (6,0,10,'61.00','','2012-03-01 00:00:00','2012-03-01 00:00:00'),
+ (7,0,12,'60.00','','2012-03-01 00:00:00','2012-03-01 00:00:00'),
+ (8,0,11,'61.00','','2012-03-01 00:00:00','2012-03-01 00:00:00'),
+ (9,0,13,'60.00','','2012-03-01 00:00:00','2012-03-01 00:00:00'),
+ (10,0,14,'40.00','','2012-03-01 00:00:00','2012-03-01 00:00:00'),
+ (11,0,15,'177.00','','2012-03-01 00:00:00','2012-03-01 00:00:00'),
+ (12,0,16,'15.00','','2012-03-01 00:00:00','2012-03-01 00:00:00'),
+ (13,0,17,'10.00','','2012-03-01 00:00:00','2012-03-01 00:00:00'),
+ (14,0,18,'60.00','','2012-03-01 00:00:00','2012-03-01 00:00:00'),
+ (15,0,19,'40.00','','2012-03-01 00:00:00','2012-03-01 00:00:00'),
+ (16,0,20,'440.00','','2012-03-01 00:00:00','2012-03-01 00:00:00'),
+ (17,0,21,'15.00','','2012-03-01 00:00:00','2012-03-01 00:00:00'),
+ (18,0,22,'7.70','','2012-03-01 00:00:00','2012-03-01 00:00:00'),
+ (19,0,23,'27.00','','2012-03-01 00:00:00','2012-03-01 00:00:00'),
+ (20,0,24,'10.00','','2012-03-01 00:00:00','2012-03-01 00:00:00'),
+ (21,0,25,'11.00','','2012-03-01 00:00:00','2012-03-01 00:00:00'),
+ (22,0,26,'1.30','','2012-03-01 00:00:00','2012-03-01 00:00:00'),
+ (23,0,27,'3.50','','2012-03-01 00:00:00','2012-03-01 00:00:00'),
+ (24,0,28,'3.50','','2012-03-01 00:00:00','2012-03-01 00:00:00'),
+ (25,0,29,'9600.00','','2012-03-01 00:00:00','2012-03-01 00:00:00'),
+ (26,0,30,'82.00','','2012-03-01 00:00:00','2012-03-01 00:00:00'),
+ (27,0,31,'57.40','','2012-03-01 00:00:00','2012-03-01 00:00:00'),
+ (28,0,32,'220.00','','2012-03-01 00:00:00','2012-03-01 00:00:00'),
+ (29,0,33,'120.00','','2012-03-01 00:00:00','2012-03-01 00:00:00'),
+ (30,0,34,'75.00','','2012-03-01 00:00:00','2012-03-01 00:00:00'),
+ (31,0,35,'70.00','','2012-03-01 00:00:00','2012-03-01 00:00:00'),
+ (32,0,36,'100.00','','2012-03-01 00:00:00','2012-03-01 00:00:00'),
+ (33,0,37,'75.00','','2012-03-01 00:00:00','2012-03-01 00:00:00');
+ 
+INSERT INTO `cage_part_specification_cage_part_spec_formula` (`cage_part_specification_cage_part_spec_formula_list_id`,`cage_part_spec_formula_id`) VALUES 
+ (2,9),
+ (2,10),
+ (2,11),
+ (2,12),
+ (3,18),
+ (3,20),
+ (3,21),
+ (3,22),
+ (4,19),
+ (4,20),
+ (4,21),
+ (4,22),
+ (5,13),
+ (5,15),
+ (5,16),
+ (5,17),
+ (6,14),
+ (6,15),
+ (6,16),
+ (6,17),
+ (11,32),
+ (11,33),
+ (11,34),
+ (11,35),
+ (11,36),
+ (11,37),
+ (1,1),
+ (1,3),
+ (1,5),
+ (1,7),
+ (7,23),
+ (7,27),
+ (7,28),
+ (7,29),
+ (7,30),
+ (10,23),
+ (10,27),
+ (10,28),
+ (10,29),
+ (10,31),
+ (12,24),
+ (12,26),
+ (13,25),
+ (13,26);
+ 
+
+INSERT INTO `role` (`id`,`version`,`authority`) VALUES 
+ (3,0,'ROLE_ADMIN'),
+ (4,0,'ROLE_SALES'),
+ (5,0,'ROLE_PRODMANAGER');
+
+INSERT INTO `user` (`id`,`version`,`account_expired`,`account_locked`,`enabled`,`password`,`password_expired`,`username`) VALUES 
+ (1,0,0x00,0x00,0x01,'8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918',0x00,'admin'),
+ (2,2,0x00,0x00,0x01,'e04eb29020eaa961e99d3162635e9fe9585c5a1121bd88784c1378aa8837195c',0x00,'sales'),
+ (3,2,0x00,0x00,0x01,'9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08',0x00,'test'),
+ (4,0,0x00,0x00,0x01,'94aac673a10a006e89402f21b37711832b0be3aa6b6b82fc21a7919ba5c70576',0x00,'prodmanager'),
+ (5,2,0x00,0x00,0x01,'188d79be2c98f9df67c9a6386a445c844a2ca70fe6da3710350fd84a04cd975e',0x00,'sales1'),
+ (6,0,0x00,0x00,0x00,'540971d68e16cd531dbfc68b5ee8871b0042b4f03ec181d93765f78db50666a3',0x00,'sales2');
+ 
+INSERT INTO `user_role` (`role_id`,`user_id`) VALUES 
+ (3,1),
+ (3,3),
+ (4,2),
+ (4,3),
+ (4,5),
+ (4,6),
+ (5,4);
+ 
+INSERT INTO `wire_price` (`id`,`version`,`conversion`,`description`,`end_date`,`freight_handling_per_metric_ton`,`price`,`start_date`,`wastage`,`wire_brand_id`,`wire_price`,`wire_price_trending`) VALUES 
+ (1,2,'12.00',NULL,'2012-06-15 00:00:00','1.00','78.92','2012-06-02 00:00:00','0.65',1,'64.50','1.00'),
+ (2,0,'12.00',NULL,'2012-06-15 00:00:00','1.00','82.84','2012-06-02 00:00:00','0.68',2,'68.37','1.00'),
+ (3,2,'12.00',NULL,'2012-06-15 00:00:00','1.00','87.00','2012-06-02 00:00:00','0.72',3,'72.47','1.00');
+ 
+INSERT INTO `taxation` (`id`,`version`,`description`,`percent`,`taxation`) VALUES 
+ (1,0,NULL,'5.00','AP VAT'),
+ (2,0,NULL,'9.00','CST'),
+ (3,0,NULL,'5.00','CST against FORM \'C\''),
+ (4,0,NULL,'0.00','Export');
+ 
+
+ 
+
+ 
+
+ 
+
+ 
