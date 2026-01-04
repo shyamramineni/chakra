@@ -60,7 +60,11 @@ dependencies {
     implementation "org.apache.grails:grails-scaffolding"
     implementation "org.apache.grails:grails-data-hibernate5"
     implementation "org.apache.grails:grails-gsp"
-    integrationTestImplementation testFixtures("org.apache.grails:grails-geb")
+    
+    implementation "org.apache.commons:commons-lang3:3.14.0"
+    implementation "org.imgscalr:imgscalr-lib:4.2"
+    // implementation "org.grails.plugins:export:3.0.0" // might be incompatible, commenting out for now
+    // integrationTestImplementation testFixtures("org.apache.grails:grails-geb")
     profile "org.apache.grails.profiles:web"
     runtimeOnly "org.fusesource.jansi:jansi"
     runtimeOnly "com.h2database:h2"

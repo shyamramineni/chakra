@@ -1,0 +1,788 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<script type="text/javascript" src="jquery-1.8.2.js"></script>
+<script type="text/javascript" src="underscore.js"></script>
+<script type="text/javascript" src="backbone.js"></script>
+<script type="text/javascript" src="quotation_components/customer.js"></script>
+<script type="text/javascript" src="quotation_components/model.js"></script>
+<script type="text/javascript" src="quotation_components/quotation_specifications.js"></script>
+<script type="text/javascript" src="quotation_components/ui_components.js"></script>
+<script type="text/javascript">
+
+var Quotation = Backbone.Model.extend({
+	defaults: {
+		"cageLength":0,
+		"noOfCuttings":0,
+		"noOfSheds":0,
+		"fulls":0,
+		"halfs":0,
+		"tiers":0,
+		"customerId":null,
+		"enquiryId":null
+	},
+	initialize: function() {
+		this.customer = null;
+		this.taxId = null;
+		this.quotationRelatedInfo = null;
+		this.modelGrid = new ModelGrid({"context":this});
+		console.log("Model: Quotation Initialized");
+	},
+	submitSpecs:function(url) {
+		console.log(this.toJSON());
+		var data = JSON.stringify(this.toJSON());
+		var req="requestData="+data+"&requestType=QuotationSubmitRequest";
+		var comm = new Communicator;
+		comm.sendRequest(req, url, this.submitSpecsCallback, this);
+	},
+	submitSpecsCallback: function(status, data, jqXHR) {
+		if(status == "Success")
+		{
+			var context = this.specsCallbackContext;
+			var resp = $.parseJSON(jqXHR.responseText);
+			this.quotationRelatedInfo = new QuotationRelatedInformation(resp.responseData.quotInfo);
+			this.set({"id": resp.id});
+			this.specsSubmitCallbackFunction.call(context, this.quotationRelatedInfo);
+		}
+	},
+	addModel: function(model) {
+		var context = this.modelCallbackContext;
+		this.modelGrid.addModel(model);
+		console.log("addModel");
+		console.log(this.modelGrid);
+		this.modelAddCallbackFunction.call(context, model);
+	},
+	registerModelAddCallback: function(func, context) {
+		this.modelCallbackContext=context; 
+		this.modelAddCallbackFunction = func;
+	},
+	registerSpecsSubmitCallback: function(func, context) {
+		this.specsCallbackContext=context; 
+		this.specsSubmitCallbackFunction = func;
+	},
+	afterSpecsSubmit: function() {
+		this.modelGridView = new ModelGridView({el: "#models_tile"});
+		this.modelGridView.quotation = this;
+	}
+});
+
+var Communicator = Backbone.Model.extend({
+	channel : new Array(),
+	defaults: {
+		"requestData" : null,
+		"requestUrl" : null,
+		"responseCallback" : null,
+		"channel": "1",
+		"state" : "Idle"
+	},
+	initialize: function() {
+		this.on("change:channel", function(eventName) {
+			if(!this.channel[this.get('channel')])
+				this.channel[this.get('channel')] = {state: "Idle", callbacks: []};
+			else
+			{
+				this.set({"state": this.channel[this.get('channel')].state});
+			}
+		});
+		this.on("change:state", function(eventName) {
+			this.channel[this.get('channel')].state = this.get('state');
+			for(var func in this.channel[this.get('channel')].callbacks)
+			{
+				this.channel[this.get('channel')].callbacks[func](this);
+			}
+		});
+		this.trigger("change:channel");
+		console.log("Model: Communicator Initialized!");
+	},
+	sendRequest: function(req, url, respCallback, context) {
+		console.log(req);
+		this.set({"state": this.channel[this.get('channel')].state},{silent:true});
+		if(this.get("state") == "Idle")
+		{
+			this.set({ state : "Working" });
+			this.set({ requestData : req });
+			this.set({ requestUrl : url });
+			this.set({ responseCallback : respCallback });
+			this.set({callbackContext: context});
+			$.ajax({
+				type: 'POST',
+				url: this.get('requestUrl'),
+				context: this,
+				contentType:"application/x-www-form-urlencoded",
+				data: this.get('requestData'),
+				success: this.successCallback,
+				error: this.errorCallback,
+				async: true
+			});
+		}
+		else
+			return null;
+	},
+	successCallback: function(data, textStatus, jqXHR) {
+		console.log("response: "+jqXHR.responseText);
+		var context = this.get('callbackContext');
+		this.get('responseCallback').call(context,"Success", data, jqXHR);
+		this.set({ state : "Idle" });
+	},
+	errorCallback: function(jqXHR, textStatus, errorThrown) {
+		//console.log(textStatus);
+		this.get('responseCallback')("Fail", errorThrown, jqXHR);
+		this.set({ state : "Idle" });
+	}
+});
+
+var CustomerView = Backbone.View.extend({
+	initialId: "#customer_tile_content-initial",
+	finalId: "#customer_tile_content-final",
+	currentId: null,
+	defaults: {
+		"state":"initial"
+	},
+	events: {
+		"click #search-btn":"doSearch",
+		"click #add-btn":"doAdd",
+		"click #addwithaddl-btn":"showExtraFields",
+		"click input[type=radio]":"selectCustomer"
+	},
+	showExtraFields: function(e) {
+		this.$("[name=extra]").css({"display":"table-row"});
+		this.$("#addwithaddl-btn").css({display:"none"});
+	},
+	selectCustomer: function(e) {
+		var id = $(e.currentTarget).attr("name");
+		console.log(id);
+		this.currentId = this.finalId;
+		var params = this.customerResults.get(id);
+		console.log(params);
+		this.renderFinal(params.toJSON());
+	},
+	serialize: function() {
+		return {
+			"custname": this.$("#custname-input").val(),
+			"mobile": this.$("#mobile-input").val(),
+			"compname": this.$("#companyname-input").val(),
+			"address": this.$("#address-input").val(),
+			"email": this.$("#email-input").val(),
+			"phone": this.$("#phoneno-input").val(),
+			"fax": this.$("#fax-input").val(),
+			"comments": this.$("#comments-input").val(),
+		};
+	},
+	render: function() {
+		var template = _.template($(this.currentId).html(), {});
+		this.$el.html(template);
+		this.setShadowFunction("#companyname-input","Company Name");
+		this.setShadowFunction("#custname-input","Customer Name");
+		this.setShadowFunction("#mobile-input","Mobile No");
+		this.setShadowFunction("#address-input","Address");
+		this.setShadowFunction("#email-input","Email ID");
+		this.setShadowFunction("#phoneno-input","Phone Number");
+		this.setShadowFunction("#fax-input","Fax");
+		this.setShadowFunction("#comments-input","Comments");
+	},
+	renderFinal: function(params) {
+		var template = _.template($(this.currentId).html(), params);
+		this.$el.html("");
+		this.$el.html(template);
+	},
+	setShadowFunction: function(id, shadowText) {
+		$(id).val(shadowText).bind("focusin",this,function(e) {
+			var context = e.data;
+			if(!context.flagData[id])
+				$(id).val("").removeClass("textfield-initial");
+		});
+		$(id).focusout(this, function(e) {
+			var context = e.data;
+			if($(id).val() == "")
+			{
+				$(id).val(shadowText).addClass("textfield-initial");
+				context.flagData[id] = false;
+			}
+			else
+				context.flagData[id] = true;
+		});
+	},
+	initialize: function() {
+		this.currentId = this.initialId;
+		this.flagData = new Array();
+		this.render();
+	},
+	doSearch: function(e) {
+		this.customerRequest = new CustomerRequest({url:"/Quotation_Page/ajax.php"});
+		this.customerRequest.registerCallback(this.doSearchCallback, this);
+		var model = new Customer(this.serialize());
+		this.customerRequest.searchCustomer(model.toJSON());		
+	},
+	doSearchCallback: function(results) {
+		console.log("results:");
+		console.log(results);
+		this.customerResults = results;
+		results.each(function (element, index, list) {
+			var temp = _.template($("#customer_search_result_entry").html(), element.toJSON());
+			this.$(".customer-content-container-results-area table").append($(temp));
+		});
+		this.undelegateEvents();
+		this.delegateEvents();
+	},
+	doAdd: function(e) {
+		this.customerRequest = new CustomerRequest({url:"/Quotation_Page/ajax.php"});
+		this.customerRequest.registerCallback(this.doAddCallback, this);
+		var model = new Customer(this.serialize());
+		this.customerRequest.addCustomer(model.toJSON());
+	},
+	doAddCallback: function(result) {
+		this.customerResults = result;
+		var id = result.at(0).get('id');
+		console.log(id);
+		this.currentId = this.finalId;
+		var params = this.customerResults.get(id);
+		console.log(params);
+		this.renderFinal(params.toJSON());
+	}
+});
+
+var SpecsView = Backbone.View.extend({
+	initialId: "#specs_tile_content-initial",
+	finalId: "#specs_tile_content-final",
+	infoId: "#quotation_info_tile_content",
+	currentId: null,
+	defaults: {
+		"state":"initial"
+	},
+	events: {
+		"click #quotation_specs_submit-btn":"doSubmit"
+	},
+	serialize: function() {
+		return {
+			"cageLength": this.$("#cage_length").val(),
+			"noOfCuttings": this.$("#cage_cuttings").val(),
+			"noOfSheds": this.$("#shed_count").val(),
+			"fulls": this.$("#fulls_count").val(),
+			"halfs": this.$("#halfs_count").val(),
+			"tiers": this.$("#tiers_count").val()
+		};
+	},
+	setQuotation: function(q) {
+		this.quotation = q;
+	},
+	doSubmit: function(e) {
+		this.quotation.set(this.serialize());
+		this.quotation.registerSpecsSubmitCallback(this.doSubmitCallback, this);
+		this.quotation.submitSpecs("/Quotation_Page/ajax.php");
+	},
+	doSubmitCallback: function(quotInfo) {
+		this.quotInfo = quotInfo;
+		console.log(this.quotation.toJSON());
+		this.renderFinal(this.quotation.toJSON());
+		this.setElement("#quotation_info_tile");
+		this.renderInfo(this.quotInfo.toJSON());
+		this.quotation.afterSpecsSubmit();
+	},
+	initialize: function() {
+		//this.render();
+		console.log("View: SpecsView initialized!");
+	},
+	render: function() {
+		var temp = _.template($(this.initialId).html(),{});
+		this.$el.html(temp);
+	},
+	renderFinal: function(params) {
+		var temp = _.template($(this.finalId).html(),params);
+		this.$el.html(temp);
+	},
+	renderInfo: function(params) {
+		var temp = _.template($(this.infoId).html(),params);
+		this.$el.html(temp);
+	}
+});
+
+$(function() {
+	var customerView = new CustomerView({el: "#customer_tile"});
+	var quotation = new Quotation();
+	var specsView = new SpecsView({el: "#quotation_info_tile_init"});
+	specsView.setQuotation(quotation);
+	specsView.render();
+});
+
+</script>
+<script type="text/template">
+	<span name="enquiryId">tempenqID</script>
+</script>
+<script type="text/template" id="quotation_info_tile_content">
+<table id="quotation_info_table" class="info_table">
+	<tr>
+		<td><span class="info_label">Quotation:</span><span class="info_data"><%= quotation %></span></td>
+	
+		<td><span class="info_label">Status:</span><span class="info_data"><%= status %></span></td>
+	
+		<td><span class="info_label">Created By:</span><span class="info_data"><%= createdby %></span></td>
+	</tr>
+	<tr>
+		<td><span class="info_label">Created Date:</span><span class="info_data"><%= createddate %></span></td>
+	
+		<td><span class="info_label">EnquiryId:</span><span class="info_data"><%= enquiry %></span></td>
+	</tr>
+</table>
+
+</script>
+<script type="text/template" id="specs_tile_content-initial">
+<table id="quotation_specs_table-initial">
+	<tr>
+		<td>Cage Length:</td><td><input type="text" id="cage_length" /></td>
+	</tr>
+	<tr>
+		<td>No of Cuttings:</td> <td><input type="text" id="cage_cuttings" /></td>
+	</tr>
+	<tr>
+		<td>No of Sheds:</td> <td><input type="text" id="shed_count" /></td>
+	</tr>
+	<tr>
+		<td>Fulls:</td> <td><input type="text" id="fulls_count" /></td>
+	</tr>
+	<tr>
+		<td>Halfs:</td> <td><input type="text" id="halfs_count" /></td>
+	</tr>
+	<tr>
+		<td>Tiers:</td> <td><input type="text" id="tiers_count" /></td>
+	</tr>
+	<tr>
+		<td><input type="button" id="quotation_specs_submit-btn" value="Submit" /></td>
+	</tr>
+</table>
+</script>
+
+<script type="text/template" id="specs_tile_content-final">
+<table id="quotation_specs_table"  class="info_table">
+	<tr>
+		<td><span class="info_label">Cage Length:</span><span class="info_data"><%= cageLength %></span></td>
+	
+		<td><span class="info_label">No of Cuttings:</span><span class="info_data"><%= noOfCuttings %></span></td>
+	
+		<td><span class="info_label">No of Sheds:</span><span class="info_data"><%= noOfSheds %></span></td>
+	</tr>
+	<tr>
+		<td><span class="info_label">Fulls:</span><span class="info_data"><%= fulls %></span></td>
+	
+		<td><span class="info_label">Halfs:</span><span class="info_data"><%= halfs %></span></td>
+	
+		<td><span class="info_label">Tiers:</span><span class="info_data"><%= tiers %></span></td>
+	</tr>
+</table>
+</script>
+
+
+<script type="text/template" id="customer_tile_content-initial">
+<div class="customer-content-container">
+	<table class="customer-content-container-space-divider">
+	<tr>
+		<td class="customer-content-container-input-area">
+			<div>
+				<table>
+					<tr>
+						<td><input type="text" id="companyname-input" class="textfield-initial" /></td>
+					</tr>
+					<tr>
+						<td><input type="text" id="custname-input" class="textfield-initial" /></td>
+					</tr>
+					<tr>
+						<td><input type="text" id="mobile-input" class="textfield-initial" /></td>
+					</tr>
+					<tr>
+						<td><input type="text" id="address-input" class="textfield-initial" /></td>
+					</tr>
+					<tr style="display:none;" name="extra">
+						<td><input type="text" name="email" id="email-input" class="textfield-initial" /></td>
+					</tr>
+					<tr style="display:none;" name="extra">
+						<td><input type="text" name="phoneno" id="phoneno-input" class="textfield-initial" /></td>
+					</tr>
+					<tr style="display:none;" name="extra">
+						<td><input type="text" name="fax" id="fax-input" class="textfield-initial" /></td>
+					</tr>
+					<tr style="display:none;" name="extra">
+						<td><textarea name="comments" id="comments-input" class="textfield-initial"></textarea></td>
+					</tr>
+				</table>
+				<input type="button" value="Search" id="search-btn" class="btn-custom" />
+				<input type="button" value="Add" id="add-btn" class="btn-custom" /><br />
+				<input type="button" value="Add with Additional Fields" id="addwithaddl-btn" class="btn-custom" /><br />
+				<span style="text-align:right">
+					<select id="taxation" name="taxation" style="margin:0px; padding:0px;">
+						<option>Tax</option>
+					</select>
+				</span>
+			</div>
+		</td>
+		<td class="customer-content-container-results-area">
+			<table>
+				<tr>
+					<th name="id">&nbsp;</th>
+					<th name="compname">Company Name</th>
+					<th name="custname">Customer Name</th>
+					<th name="mobile">Mobile No</th>
+					<th name="address">Address</th>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+</div>
+</script>
+<script type="text/template" id="customer_tile_content-final">
+<div class="customer-content-container">
+	<table>
+		<tr>
+			<td><span class="info_label">Customer Name:</span><span class="info_data"><%= custname %></span></td>
+			<td><span class="info_label">Company Name:</span><span class="info_data"><%= compname %></span></td>
+			<td><span class="info_label">Mobile:</span><span class="info_data"><%= mobile %></span></td>
+		</tr>
+	</table>
+</div>
+</script>
+<script type="text/template" id="customer_search_result_entry">
+	<tr>
+		<td name="id"><input type="radio" name="<%= id %>" /></td>
+		<td name="compname"><%= compname %></td>
+		<td name="custname"><%= custname %></td>
+		<td name="mobile"><%= mobile %></td>
+		<td name="address"><%= address.country %></td>
+	</tr>
+</script>
+<script type="text/template" id="model_add_dialogue_content">
+	<div class="model-add-dialogue-cage-design-select">
+    	<select id="model_add_dialogue_cage_design_type" style="margin:0px;">
+			<option value="null">Select</option>
+			<option value="1">One</option>
+			<option value="2">Two</option>
+		</select>
+        <select id="model_add_dialogue_cage_design" style="margin:0px;"></select>
+    </div>
+	<div class="model-add-dialogue-add-field-box" id="model_add_dialogue_field_box">
+		
+    </div>
+    <span style="display:block" class="model-add-other-elements">
+    	<input type="button" id="model_field_add-btn" value="+" />
+    </span>
+    <span style="display:block" class="model-add-other-elements">
+    	<input type="button" id="model_fields_submit-btn" value="Submit" />
+        <input type="button" id="model_fields_cancel-btn" value="Cancel" />
+    </span>
+</script>
+<script type="text/template" id="model_add_dialogue_field_box_content">
+	<span class="model-add-dialogue-add-field">
+		<select name="cagePartType">
+			<option value="null">Select</option>
+			<option value="1">One</option>
+			<option value="2">Two</option>
+		</select>
+		<select name="cagePartSpec">
+		</select>
+	</span>
+</script>
+<style type="text/css">
+#container {
+	display:block;
+	margin-left:200px;
+	width:800px;
+}
+.quotation-page-tile {
+	background-color:#CCC;
+	margin-bottom:5px;
+}
+.customer-content-container {
+	/*background-color:#CCC;*/
+	box-sizing:border-box;
+	padding:10px;
+}
+.customer-content-container table {
+	width:100%;
+}
+.customer-content-container-input-area {
+	border-style:solid;
+	border-width:0px;
+	border-right-width:1px;
+	border-color:#000;
+}
+.customer-content-container-results-area {
+	display:table-cell;
+	vertical-align:text-top;
+	overflow-y:scroll;
+}
+.customer-content-container-results-area table {
+	width:100%;
+}
+.customer-content-container-results-area table tr th {
+	text-align:left;
+}
+.customer-content-container-space-divider {
+	width:100%;
+}
+.textfield-initial {
+	color:#CCC;
+}
+.info_label {
+	margin-right:20px;
+	color:#666;
+	font-weight:100;
+}
+.info_table {
+	width:100%;
+}
+#model_add_popup_container {
+	display:block;
+	width:400px;
+	position:absolute;
+	border-style:solid;
+	border-color:black;
+	border-width:1px;
+	border-radius:5px;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	-webkit-box-shadow:  5px 5px 3px 3px #333;
+    box-shadow:  5px 5px 3px 3px #333;
+	background-color:#fff;
+	padding:10px;
+}
+#models_grid_container {
+	display:block;
+	width:100%;
+	box-sizing:border-box;
+	position:relative;
+	padding:10px;
+}
+#models_grid_container .models-box {
+	display:block;
+	box-sizing:border-box;
+	height:200px;
+	border-color:black;
+	border-style:inset;
+	border-width:1px;
+	margin-bottom:5px;
+	overflow-y:scroll;
+}
+.model-grid-row {
+	display:block;
+	box-sizing:border-box;
+	height:40px;
+	background-color:#999;
+	border-style:solid;
+	border-color:#000;
+	border-width:0px;
+	border-bottom-width:1px;
+	overflow:hidden;
+}
+.model-grid-row_expanded {
+	height:auto;
+}
+.model-grid-row_selected {
+	height:auto;
+	background-color:#F18E16;
+}
+.model-grid-row .model-grid-row-data span {
+	display: inline-block;
+	padding-left:20px;
+	paddding-right:20px;
+	float:left;
+	box-sizing:border-box;
+	width:16.66%;
+	border-style:solid;
+	border-color:black;
+	border-width:0px;
+	border-collapse:collapse;
+	padding-top:10px;
+}
+.model-grid-row .model-grid-row-data .cageparttype-info {
+	display:block;
+}
+.model-grid-row .model-grid-row-data .cageparttype-info .cageparttype-info-field {
+	display:inline-block;
+	padding-left:20px;
+	padding-right:20px;
+	padding-bottom:10px;
+}
+
+/* styles for add model POpup */
+.model_add_dialogue_content {
+}
+#model_add_popup_container .model-add-dialogue-cage-design-select {
+	display: block;
+	border: 0px solid #000;
+	border-bottom-width:1px;
+	padding:10px;
+}
+#model_add_popup_container .model-add-dialogue-cage-design-select select {
+	margin-right:20px !important;
+}
+#model_add_popup_container .model-add-dialogue-add-field-box {
+	display:block;
+}
+#model_add_popup_container .model-add-dialogue-add-field-box .model-add-dialogue-add-field {
+	display:block;
+	padding:5px;
+}
+#model_add_popup_container .model-add-dialogue-add-field-box .model-add-dialogue-add-field select {
+	margin-right:20px !important;
+}
+/* end for model add popup styles */
+
+/*styles for model info box */
+.models-info-container {
+	display:block;
+	padding:20px;
+}
+.models-info-container .tabs-box-container {
+	display:block;
+}
+.models-info-container .tabs-box-container .tabs-holder {
+	display:block;
+	height:30px;
+	margin:0px;
+	padding:0px;
+}
+.models-info-container .tabs-box-container .tabs-holder .tab-tile {
+	display:block;
+	float:left;
+	border-style:solid;
+	border-color:#000;
+	border-width:1px;
+	cursor:pointer;
+}
+.models-info-container .tabs-box-container .tabs-holder .tab-tile-selected {
+	background-color:#C90;
+}
+.models-info-container .tabs-box-container .tabs-holder .tab-tile .tab-tile-label {
+	display:block;
+	padding-left:15px;
+	padding-right:15px;
+	padding-top:3px;
+	padding-bottom:3px;
+}
+.models-info-container .tabs-box-container .tabs-holder .tab-tile-selected .tab-tile-label {
+}
+.models-info-container .tabs-box-container .tabs-content-holder {
+	display:block;
+	border-style:solid;
+	border-color:#000;
+	border-width:1px;
+}
+.models-info-container .tabs-box-container .tabs-content-holder .tab-tile-content {
+	display:none;
+	padding:10px;
+}
+.models-info-container .tabs-box-container .tabs-content-holder .tab-tile-content-selected {
+	display:block;
+}
+/* end: model info box */
+/* styles for collpase panel */
+.collapse-panel {
+	display:block;
+	width:100%;
+}
+.collapse-panel .collapse-panel-header {
+	display:block;
+	background-color:#9C0;
+	border-color:#000;
+	border-style:sold;
+	border-width:1px;
+}
+.collapse-panel .collapse-panel-body {
+	display:none;
+	background-color:#09F;
+	border-color:#000;
+	border-style:sold;
+	border-width:1px;
+}
+.collapse-panel .collapse-panel-body-expanded {
+	display:block;
+}
+</style>
+</head>
+
+<body>
+<script type="text/template" id="models_grid_template">
+<div id="models_grid_container">
+	<div class="models-box">
+	</div>
+	<input type="button" id="model_add-btn" value="Add Another Model" />
+</div>
+
+</script>
+<script type="text/template" id="model_row_template">
+<div class="model-grid-row">
+	<div class="model-grid-row-data" name="<%= id %>">
+		<span class="model-grid-row-cage-design"><%= cageDesign %></span>
+		<span class="model-grid-row-bird-count"><%= noOfBirds %></span>
+		<span class="model-grid-row-cost"><%= cost %></span>
+		<span class="model-grid-row-tax"><%= tax %></span>
+		<span class="model-grid-row-totalcost"><%= totalCost %></span>
+		<span class="model-grid-row-confirm"><input type="button" value="Confirm" /></span>
+		<div class="cageparttype-info">
+			
+		</div>
+	</div>
+</div>
+</script>
+<script type="text/template" id="model_row_cageparttype_info">
+<div class="cageparttype-info-field">
+	<%= cagePartType %>::<%= cagePartSpec %>
+</div>
+</script>
+<div id="container">
+    <div id="quotation_info_tile" class="quotation-page-tile">
+    </div>
+    <div id="customer_tile" class="quotation-page-tile">
+    </div>
+    <div id="quotation_info_tile_init" class="quotation-page-tile">
+    </div>
+    <div id="models_tile" class="quotation-page-tile">
+    </div>
+    <div id="models_info_tile" class="quotation-page-tile">
+       	<script id="tabbed_panel_content" type="text/template">
+    	<div class="models-info-container">
+ 			<div class="tabs-box-container">
+            	<div class="tabs-holder">
+                	<span class="tab-tile" name="1">
+                    	<span class="tab-tile-label">telephone</span>
+                    </span>
+                    <span class="tab-tile" name="2">
+                    	<span class="tab-tile-label">Mobile</span>
+                    </span>
+                </div>
+                <div class="tabs-content-holder">
+                	<div class="tab-tile-content" name="1">
+                    	<div class="collapse-panel">
+							<div class="collapse-panel-header">
+								MObile
+							</div>
+							<div class="collapse-panel-body">
+								asdasd<br />
+								asdasdasd<br />
+								asdsafaf<br />
+								asdjkd
+							</div>
+						</div>
+						<div class="collapse-panel">
+							<div class="collapse-panel-header">
+								telephone
+							</div>
+							<div class="collapse-panel-body">
+								asdasd<br />
+								asdasdasd<br />
+								asdsafaf<br />
+								asdjkd
+							</div>
+						</div>
+                    </div>
+                    <div class="tab-tile-content" name="2">
+                    	mobile content
+                    </div>
+                </div>
+            </div>  
+    	</div>
+		</script> 
+    </div>
+</div>
+</body>
+</html>
