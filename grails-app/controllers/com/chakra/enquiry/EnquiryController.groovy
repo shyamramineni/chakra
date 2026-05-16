@@ -148,7 +148,7 @@ class EnquiryController {
 		//enquiryInstance.status = Enquiry.STATUS_NEW
 				
 		//enquiryInstance.comments = params.comments+" "+"Created By "+springSecurityService.currentUser.toString()+new Date().format("dd/MM/yy-hh:mm")+'<br>'
-		enquiryInstance.comments = params.comments+" "+"Created By Admin "+new Date().format("dd/MM/yy-hh:mm")+'<br>'
+		enquiryInstance.comments = params.comments+" "+"Created By Admin "+new java.text.SimpleDateFormat("dd/MM/yy-hh:mm").format(new Date())+'<br>'
 		
 		if (!enquiryInstance.save(flush: true)) {
 			render(view: "create", model: [enquiryInstance: enquiryInstance])
@@ -227,7 +227,7 @@ class EnquiryController {
 		enquiryInstance.properties = params
 		
 		//enquiryInstance.comments = enquiryInstance.comments+" "+"Edited By "+springSecurityService.currentUser.toString()+new Date().format("dd/MM/yy-hh:mm") +"<br>"
-		enquiryInstance.comments = enquiryInstance.comments+" "+"Edited By Admin "+new Date().format("dd/MM/yy-hh:mm") +"<br>"
+		enquiryInstance.comments = enquiryInstance.comments+" "+"Edited By Admin "+new java.text.SimpleDateFormat("dd/MM/yy-hh:mm").format(new Date()) +"<br>"
 
 		if (!enquiryInstance.save(flush: true)) {
 			
