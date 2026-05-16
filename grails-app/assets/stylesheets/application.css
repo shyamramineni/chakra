@@ -1,14 +1,43 @@
 /*
-* This is a manifest file that'll be compiled into application.css, which will include all the files
-* listed below.
+* This is a manifest file that'll be compiled into application.css
 *
 * Any CSS file within this directory can be referenced here using a relative path.
 *
-* You're free to add application-wide styles to this file and they'll appear at the top of the
-* compiled file, but it's generally better to create a new file per style scope.
-*
 *= require webjars/dist/css/bootstrap.css
 *= require webjars/font/bootstrap-icons.css
+*= require modern/main.css
+*= require modern/quotation.css
+*= require modern/shopping-cart.css
 *= require grails.css
 *= require_self
 */
+
+/* Application-wide custom styles */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Custom application overrides */
+.navbar-brand {
+    font-weight: bold;
+}
+
+.main-content {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+/* Loading spinner styling */
+#spinner {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+}
+
+.spinner-border-custom {
+    width: 3rem;
+    height: 3rem;
+    border-width: 0.3em;
+}

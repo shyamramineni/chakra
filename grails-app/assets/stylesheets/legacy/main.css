@@ -1,0 +1,63 @@
+#grailsLogo {
+	padding:4px;
+}
+
+#loginblock {
+	padding-top: 80px;
+	float: right;
+}
+
+ol.property-list {
+	list-style-type: none;
+}
+
+span.property-label {
+	font-weight: bold;
+}
+
+div.nav {
+	display: none;
+}
+div.searchbox { 
+	width: 300px;
+}
+
+a.skip {
+	display: none;
+}
+
+h1, h2 {
+font-size: 18px;
+text-decoration: underline;
+line-height: 25px;
+}
+
+label {
+	font-weight: bold;
+	display: block;
+	width: 210px;
+	float: left; 
+}
+
+label:after {
+	content: ": "
+}
+fieldset legend {
+	background: #CCA383;
+	padding: 6px; 
+	font-weight: bold;
+	}
+ input,
+textarea,
+select,
+.uneditable-input {
+  	height: auto;
+  	margin-bottom: 4px;
+  	 	}
+ 
+.table-bordered th + th, .table-bordered td + td, .table-bordered th + td, .table-bordered td + th 
+{
+    text-align: center;	
+    width:auto;
+    height:auto;
+	}

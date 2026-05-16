@@ -1,0 +1,15 @@
+grails-app/assets/javascripts/legacy/quotation_specs.js
+grails-app/assets/javascripts/legacy/underscore.js
+grails-app/assets/javascripts/legacy/backbone.js
+grails-app/assets/javascripts/legacy/util.js
+grails-app/assets/javascripts/legacy/quotation_components/quotation_specifications.js
+grails-app/assets/javascripts/legacy/quotation_components/customer.js
+grails-app/assets/javascripts/legacy/quotation_components/ui_components.js
+grails-app/assets/javascripts/legacy/quotation_components/model.js
+grails-app/assets/javascripts/legacy/quotation_model_info.js
+grails-app/assets/javascripts/legacy/prototype/prototype.js
+grails-app/assets/javascripts/legacy/quotation.js
+grails-app/assets/javascripts/legacy/quotation_info.js
+grails-app/assets/javascripts/legacy/customer.js
+grails-app/assets/javascripts/legacy/quotation_model_grid.js
+grails-app/assets/javascripts/legacy/quotation_1.js

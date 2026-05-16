@@ -1,0 +1,12 @@
+grails-app/assets/javascripts/legacy/backbone.js
+grails-app/assets/javascripts/legacy/prototype/dragdrop.js
+grails-app/assets/javascripts/legacy/prototype/controls.js
+grails-app/assets/javascripts/legacy/prototype/unittest.js
+grails-app/assets/javascripts/legacy/prototype/effects.js
+grails-app/assets/javascripts/legacy/prototype/sound.js
+grails-app/assets/javascripts/legacy/prototype/prototype.js
+grails-app/assets/javascripts/legacy/prototype/scriptaculous.js
+grails-app/assets/javascripts/legacy/prototype/slider.js
+grails-app/assets/javascripts/legacy/prototype/rico.js
+grails-app/assets/javascripts/legacy/jquery-1.8.2.js
+grails-app/assets/javascripts/legacy/application.js
